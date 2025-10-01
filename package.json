@@ -1,9 +1,9 @@
 {
-  "name": "@addtowallet-npm/n8n-nodes-add-to-wallet",
+  "name": "n8n-nodes-addtowallet",
   "version": "1.1.1",
   "description": "n8n community node to work with the Example API",
   "license": "MIT",
-  "homepage": "https://example.com",
+  "homepage": "https://addtowallet.co/",
   "keywords": [
     "n8n-community-node-package"
   ],
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/add-To-Wallet/addtowallet-node.git"
+    "url": "https://github.com/AddToWalletCo/addtowallet-node.git"
   },
   "scripts": {
     "build": "n8n-node build",
