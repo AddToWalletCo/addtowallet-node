@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-addtowallet",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "addtowallet node package for n8n community nodes",
   "license": "MIT",
   "homepage": "https://addtowallet.co/",
