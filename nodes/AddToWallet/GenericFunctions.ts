@@ -30,7 +30,7 @@ export async function addToWalletApiRequest(
   }
 
   try {
-    return await this.helpers.request(options);
+    return await this.helpers.httpRequest(options);
   } catch (error) {
     const apiError = error;
     if (apiError.response?.body) {
