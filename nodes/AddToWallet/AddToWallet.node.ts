@@ -43,131 +43,140 @@ export class AddToWallet implements INodeType {
         placeholder: 'John Doe',
       },
       {
-        displayName: 'Logo URL',
-        name: 'logoUrl',
-        type: 'string',
-        default: '',
-        placeholder: 'https://example.com/logo.png',
-      },
-      {
-        displayName: 'Rectangle Logo',
-        name: 'rectangleLogo',
-        type: 'string',
-        default: '',
-        placeholder: 'https://example.com/rectangle.png',
-      },
-      {
-        displayName: 'Hero Image',
-        name: 'heroImage',
-        type: 'string',
-        default: '',
-        placeholder: 'https://example.com/hero.png',
-      },
-      {
-        displayName: 'Google Hero Image',
-        name: 'googleHeroImage',
-        type: 'string',
-        default: '',
-        placeholder: 'https://example.com/google.png',
-      },
-      {
-        displayName: 'Apple Hero Image',
-        name: 'appleHeroImage',
-        type: 'string',
-        default: '',
-        placeholder: 'https://example.com/apple.png',
-      },
-      {
-        displayName: 'Background Color',
-        name: 'hexBackgroundColor',
-        type: 'color',
-        default: '#141f31',
-      },
-      {
-        displayName: 'Apple Font Color',
-        name: 'appleFontColor',
-        type: 'color',
-        default: '#FFFFFF',
-      },
-      {
-        displayName: 'Barcode Value',
-        name: 'barcodeValue',
-        type: 'string',
-        default: '',
-      },
-      {
-        displayName: 'Barcode Alt Text',
-        name: 'barcodeAltText',
-        type: 'string',
-        default: '',
-      },
-      {
-        displayName: 'Barcode Type',
-        name: 'barcodeType',
-        type: 'options',
-        options: [
-          { name: 'QR Code', value: 'QR_CODE' },
-          { name: 'PDF417', value: 'PDF_417' },
-          { name: 'Aztec', value: 'AZTEC' },
-          { name: 'Code 128', value: 'CODE_128' },
-        ],
-        default: 'QR_CODE',
-      },
-      {
-        displayName: 'Text Modules',
-        name: 'textModules',
-        type: 'fixedCollection',
-        typeOptions: {
-          multipleValues: true,
-        },
-        placeholder: 'Add Text Module',
+        displayName: 'Additional Fields',
+        name: 'additionalFields',
+        type: 'collection',
+        placeholder: 'Add Field',
         default: {},
         options: [
           {
-            name: 'module',
-            displayName: 'Module',
-            values: [
+            displayName: 'Apple Font Color',
+            name: 'appleFontColor',
+            type: 'color',
+            default: '#FFFFFF',
+          },
+          {
+            displayName: 'Apple Hero Image',
+            name: 'appleHeroImage',
+            type: 'string',
+            default: '',
+            placeholder: 'https://example.com/apple.png',
+          },
+          {
+            displayName: 'Background Color',
+            name: 'hexBackgroundColor',
+            type: 'color',
+            default: '#141f31',
+          },
+          {
+            displayName: 'Barcode Alt Text',
+            name: 'barcodeAltText',
+            type: 'string',
+            default: '',
+          },
+          {
+            displayName: 'Barcode Type',
+            name: 'barcodeType',
+            type: 'options',
+            options: [
+              { name: 'QR Code', value: 'QR_CODE' },
+              { name: 'PDF417', value: 'PDF_417' },
+              { name: 'Aztec', value: 'AZTEC' },
+              { name: 'Code 128', value: 'CODE_128' },
+            ],
+            default: 'QR_CODE',
+          },
+          {
+            displayName: 'Barcode Value',
+            name: 'barcodeValue',
+            type: 'string',
+            default: '',
+          },
+          {
+            displayName: 'Google Hero Image',
+            name: 'googleHeroImage',
+            type: 'string',
+            default: '',
+            placeholder: 'https://example.com/google.png',
+          },
+          {
+            displayName: 'Hero Image',
+            name: 'heroImage',
+            type: 'string',
+            default: '',
+            placeholder: 'https://example.com/hero.png',
+          },
+          {
+            displayName: 'Links',
+            name: 'links',
+            type: 'fixedCollection',
+            typeOptions: {
+              multipleValues: true,
+            },
+            placeholder: 'Add Link',
+            default: {},
+            options: [
               {
-                displayName: 'Label',
-                name: 'label',
-                type: 'string',
-                default: '',
-              },
-              {
-                displayName: 'Value',
-                name: 'value',
-                type: 'string',
-                default: '',
+                name: 'link',
+                displayName: 'Link',
+                values: [
+                  {
+                    displayName: 'Label',
+                    name: 'label',
+                    type: 'string',
+                    default: '',
+                  },
+                  {
+                    displayName: 'URL',
+                    name: 'url',
+                    type: 'string',
+                    default: '',
+                  },
+                ],
               },
             ],
           },
-        ],
-      },
-      {
-        displayName: 'Links',
-        name: 'links',
-        type: 'fixedCollection',
-        typeOptions: {
-          multipleValues: true,
-        },
-        placeholder: 'Add Link',
-        default: {},
-        options: [
           {
-            name: 'link',
-            displayName: 'Link',
-            values: [
+            displayName: 'Logo URL',
+            name: 'logoUrl',
+            type: 'string',
+            default: '',
+            placeholder: 'https://example.com/logo.png',
+          },
+          {
+            displayName: 'Rectangle Logo',
+            name: 'rectangleLogo',
+            type: 'string',
+            default: '',
+            placeholder: 'https://example.com/rectangle.png',
+          },
+          {
+            displayName: 'Text Modules',
+            name: 'textModules',
+            type: 'fixedCollection',
+            typeOptions: {
+              multipleValues: true,
+            },
+            placeholder: 'Add Text Module',
+            default: {},
+            options: [
               {
-                displayName: 'Label',
-                name: 'label',
-                type: 'string',
-                default: '',
-              },
-              {
-                displayName: 'URL',
-                name: 'url',
-                type: 'string',
-                default: '',
+                name: 'module',
+                displayName: 'Module',
+                values: [
+                  {
+                    displayName: 'Label',
+                    name: 'label',
+                    type: 'string',
+                    default: '',
+                  },
+                  {
+                    displayName: 'Value',
+                    name: 'value',
+                    type: 'string',
+                    default: '',
+                  },
+                ],
               },
             ],
           },
@@ -184,22 +193,26 @@ export class AddToWallet implements INodeType {
       try {
         const cardTitle = this.getNodeParameter('cardTitle', i) as string;
         const header = this.getNodeParameter('header', i) as string;
-        const logoUrl = this.getNodeParameter('logoUrl', i) as string;
-        const rectangleLogo = this.getNodeParameter('rectangleLogo', i) as string;
-        const heroImage = this.getNodeParameter('heroImage', i) as string;
-        const googleHeroImage = this.getNodeParameter('googleHeroImage', i) as string;
-        const appleHeroImage = this.getNodeParameter('appleHeroImage', i) as string;
-        const hexBackgroundColor = this.getNodeParameter('hexBackgroundColor', i) as string;
-        const appleFontColor = this.getNodeParameter('appleFontColor', i) as string;
-        const barcodeValue = this.getNodeParameter('barcodeValue', i) as string;
-        const barcodeAltText = this.getNodeParameter('barcodeAltText', i) as string;
-        const barcodeType = this.getNodeParameter('barcodeType', i) as string;
+        const additionalFields = this.getNodeParameter('additionalFields', i, {}) as IDataObject;
+        
+        const logoUrl = (additionalFields.logoUrl as string) || '';
+        const rectangleLogo = (additionalFields.rectangleLogo as string) || '';
+        const heroImage = (additionalFields.heroImage as string) || '';
+        const googleHeroImage = (additionalFields.googleHeroImage as string) || '';
+        const appleHeroImage = (additionalFields.appleHeroImage as string) || '';
+        const hexBackgroundColor = (additionalFields.hexBackgroundColor as string) || '#141f31';
+        const appleFontColor = (additionalFields.appleFontColor as string) || '#FFFFFF';
+        const barcodeValue = (additionalFields.barcodeValue as string) || '';
+        const barcodeAltText = (additionalFields.barcodeAltText as string) || '';
+        const barcodeType = (additionalFields.barcodeType as string) || 'QR_CODE';
 
         // text modules (could be empty)
-        const textModules = this.getNodeParameter('textModules.module', i, []) as Array<{
-          label: string;
-          value: string;
-        }>;
+        const textModules = additionalFields.textModules && (additionalFields.textModules as IDataObject).module
+          ? ((additionalFields.textModules as IDataObject).module as Array<{
+              label: string;
+              value: string;
+            }>)
+          : [];
 
         const textModulesData = textModules.map((m, idx) => ({
           id: `module${idx}`,
@@ -208,10 +221,12 @@ export class AddToWallet implements INodeType {
         }));
 
         // links
-        const links = this.getNodeParameter('links.link', i, []) as Array<{
-          label: string;
-          url: string;
-        }>;
+        const links = additionalFields.links && (additionalFields.links as IDataObject).link
+          ? ((additionalFields.links as IDataObject).link as Array<{
+              label: string;
+              url: string;
+            }>)
+          : [];
         const linksModuleData = links.map((l) => ({
           label: l.label,
           url: l.url,

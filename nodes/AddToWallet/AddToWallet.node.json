@@ -1,5 +1,5 @@
 {
-	"node": "n8n-nodes-add-to-wallet",
+	"node": "n8n-nodes-base.addToWallet",
 	"nodeVersion": "1.0",
 	"codexVersion": "1.0",
 	"categories": ["Development", "Developer Tools"],
