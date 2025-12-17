@@ -19,9 +19,6 @@ export async function addToWalletApiRequest(
     method,
     url: `${credentials.baseUrl}${endpoint}`,
     json: true,
-    headers: {
-      apikey: credentials.apiKey,
-    },
     body,
   };
 
@@ -30,7 +27,7 @@ export async function addToWalletApiRequest(
   }
 
   try {
-    return await this.helpers.httpRequest(options);
+    return await this.helpers.httpRequestWithAuthentication.call(this, 'addToWalletApi', options);
   } catch (error) {
     const apiError = error;
     if (apiError.response?.body) {
