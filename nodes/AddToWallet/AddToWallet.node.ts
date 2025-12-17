@@ -5,6 +5,7 @@ import {
   INodeTypeDescription,
   IDataObject,
   NodeConnectionTypes,
+  NodeOperationError,
 } from 'n8n-workflow';
 import { addToWalletApiRequest } from './GenericFunctions';
 
@@ -27,12 +28,51 @@ export class AddToWallet implements INodeType {
     ],
     properties: [
       {
+        displayName: 'Resource',
+        name: 'resource',
+        type: 'options',
+        noDataExpression: true,
+        options: [
+          {
+            name: 'Pass',
+            value: 'pass',
+          },
+        ],
+        default: 'pass',
+      },
+      {
+        displayName: 'Operation',
+        name: 'operation',
+        type: 'options',
+        noDataExpression: true,
+        displayOptions: {
+          show: {
+            resource: ['pass'],
+          },
+        },
+        options: [
+          {
+            name: 'Create',
+            value: 'create',
+            description: 'Create a new wallet pass',
+            action: 'Create a pass',
+          },
+        ],
+        default: 'create',
+      },
+      {
         displayName: 'Card Title',
         name: 'cardTitle',
         type: 'string',
         required: true,
         default: '',
         placeholder: 'Your Business Name',
+        displayOptions: {
+          show: {
+            resource: ['pass'],
+            operation: ['create'],
+          },
+        },
       },
       {
         displayName: 'Header',
@@ -41,6 +81,12 @@ export class AddToWallet implements INodeType {
         required: true,
         default: '',
         placeholder: 'John Doe',
+        displayOptions: {
+          show: {
+            resource: ['pass'],
+            operation: ['create'],
+          },
+        },
       },
       {
         displayName: 'Logo URL',
@@ -49,6 +95,12 @@ export class AddToWallet implements INodeType {
         required: true,
         default: '',
         placeholder: 'https://example.com/logo.png',
+        displayOptions: {
+          show: {
+            resource: ['pass'],
+            operation: ['create'],
+          },
+        },
       },
       {
         displayName: 'Hero Image',
@@ -57,6 +109,12 @@ export class AddToWallet implements INodeType {
         required: true,
         default: '',
         placeholder: 'https://example.com/hero.png',
+        displayOptions: {
+          show: {
+            resource: ['pass'],
+            operation: ['create'],
+          },
+        },
       },
       {
         displayName: 'Background Color',
@@ -64,6 +122,12 @@ export class AddToWallet implements INodeType {
         type: 'color',
         required: true,
         default: '#141f31',
+        displayOptions: {
+          show: {
+            resource: ['pass'],
+            operation: ['create'],
+          },
+        },
       },
       {
         displayName: 'Barcode Type',
@@ -77,6 +141,12 @@ export class AddToWallet implements INodeType {
           { name: 'Code 128', value: 'CODE_128' },
         ],
         default: 'QR_CODE',
+        displayOptions: {
+          show: {
+            resource: ['pass'],
+            operation: ['create'],
+          },
+        },
       },
       {
         displayName: 'Barcode Value',
@@ -84,6 +154,12 @@ export class AddToWallet implements INodeType {
         type: 'string',
         required: true,
         default: '',
+        displayOptions: {
+          show: {
+            resource: ['pass'],
+            operation: ['create'],
+          },
+        },
       },
       {
         displayName: 'Additional Fields',
@@ -91,6 +167,12 @@ export class AddToWallet implements INodeType {
         type: 'collection',
         placeholder: 'Add Field',
         default: {},
+        displayOptions: {
+          show: {
+            resource: ['pass'],
+            operation: ['create'],
+          },
+        },
         options: [
           {
             displayName: 'Apple Font Color',
@@ -196,78 +278,85 @@ export class AddToWallet implements INodeType {
 
     for (let i = 0; i < items.length; i++) {
       try {
-        const cardTitle = this.getNodeParameter('cardTitle', i) as string;
-        const header = this.getNodeParameter('header', i) as string;
-        const logoUrl = this.getNodeParameter('logoUrl', i) as string;
-        const heroImage = this.getNodeParameter('heroImage', i) as string;
-        const hexBackgroundColor = this.getNodeParameter('hexBackgroundColor', i) as string;
-        const barcodeType = this.getNodeParameter('barcodeType', i) as string;
-        const barcodeValue = this.getNodeParameter('barcodeValue', i) as string;
-        
-        const additionalFields = this.getNodeParameter('additionalFields', i, {}) as IDataObject;
-        
-        const rectangleLogo = (additionalFields.rectangleLogo as string) || '';
-        const googleHeroImage = (additionalFields.googleHeroImage as string) || '';
-        const appleHeroImage = (additionalFields.appleHeroImage as string) || '';
-        const appleFontColor = (additionalFields.appleFontColor as string) || '#FFFFFF';
-        const barcodeAltText = (additionalFields.barcodeAltText as string) || '';
+        const resource = this.getNodeParameter('resource', i) as string;
+        const operation = this.getNodeParameter('operation', i) as string;
 
-        // text modules (could be empty)
-        const textModules = additionalFields.textModules && (additionalFields.textModules as IDataObject).module
-          ? ((additionalFields.textModules as IDataObject).module as Array<{
-              label: string;
-              value: string;
-            }>)
-          : [];
+        if (resource === 'pass' && operation === 'create') {
+          const cardTitle = this.getNodeParameter('cardTitle', i) as string;
+          const header = this.getNodeParameter('header', i) as string;
+          const logoUrl = this.getNodeParameter('logoUrl', i) as string;
+          const heroImage = this.getNodeParameter('heroImage', i) as string;
+          const hexBackgroundColor = this.getNodeParameter('hexBackgroundColor', i) as string;
+          const barcodeType = this.getNodeParameter('barcodeType', i) as string;
+          const barcodeValue = this.getNodeParameter('barcodeValue', i) as string;
+          
+          const additionalFields = this.getNodeParameter('additionalFields', i, {}) as IDataObject;
+          
+          const rectangleLogo = (additionalFields.rectangleLogo as string) || '';
+          const googleHeroImage = (additionalFields.googleHeroImage as string) || '';
+          const appleHeroImage = (additionalFields.appleHeroImage as string) || '';
+          const appleFontColor = (additionalFields.appleFontColor as string) || '#FFFFFF';
+          const barcodeAltText = (additionalFields.barcodeAltText as string) || '';
 
-        const textModulesData = textModules.map((m, idx) => ({
-          id: `module${idx}`,
-          header: m.label,
-          body: m.value,
-        }));
+          // text modules (could be empty)
+          const textModules = additionalFields.textModules && (additionalFields.textModules as IDataObject).module
+            ? ((additionalFields.textModules as IDataObject).module as Array<{
+                label: string;
+                value: string;
+              }>)
+            : [];
 
-        // links
-        const links = additionalFields.links && (additionalFields.links as IDataObject).link
-          ? ((additionalFields.links as IDataObject).link as Array<{
-              label: string;
-              url: string;
-            }>)
-          : [];
-        const linksModuleData = links.map((l) => ({
-          label: l.label,
-          url: l.url,
-        }));
+          const textModulesData = textModules.map((m, idx) => ({
+            id: `module${idx}`,
+            header: m.label,
+            body: m.value,
+          }));
 
-        const body: IDataObject = {
-          cardTitle,
-          header,
-          logoUrl,
-          rectangleLogo,
-          heroImage,
-          googleHeroImage,
-          appleHeroImage,
-          hexBackgroundColor,
-          appleFontColor,
-          barcodeType,
-          barcodeValue: barcodeValue || '',
-          barcodeAltText: barcodeAltText || '',
-          textModulesData,
-          linksModuleData,
-        };
+          // links
+          const links = additionalFields.links && (additionalFields.links as IDataObject).link
+            ? ((additionalFields.links as IDataObject).link as Array<{
+                label: string;
+                url: string;
+              }>)
+            : [];
+          const linksModuleData = links.map((l) => ({
+            label: l.label,
+            url: l.url,
+          }));
 
-        const responseData = await addToWalletApiRequest.call(this, 'POST', '/api/card/create', body);
+          const body: IDataObject = {
+            cardTitle,
+            header,
+            logoUrl,
+            rectangleLogo,
+            heroImage,
+            googleHeroImage,
+            appleHeroImage,
+            hexBackgroundColor,
+            appleFontColor,
+            barcodeType,
+            barcodeValue: barcodeValue || '',
+            barcodeAltText: barcodeAltText || '',
+            textModulesData,
+            linksModuleData,
+          };
 
-        const shareableUrl = `${(await this.getCredentials('addToWalletApi')).baseUrl}/card/${responseData.cardId}`;
+          const responseData = await addToWalletApiRequest.call(this, 'POST', '/api/card/create', body);
 
-        returnData.push({
-          json: {
-            cardId: responseData.cardId,
-            message: responseData.msg,
-            shareableUrl,
-            success: true,
-          },
-          pairedItem: { item: i },
-        });
+          const shareableUrl = `${(await this.getCredentials('addToWalletApi')).baseUrl}/card/${responseData.cardId}`;
+
+          returnData.push({
+            json: {
+              cardId: responseData.cardId,
+              message: responseData.msg,
+              shareableUrl,
+              success: true,
+            },
+            pairedItem: { item: i },
+          });
+        } else {
+          throw new NodeOperationError(this.getNode(), `The operation "${operation}" is not supported for resource "${resource}"`);
+        }
       } catch (error) {
         if (this.continueOnFail()) {
           returnData.push({
