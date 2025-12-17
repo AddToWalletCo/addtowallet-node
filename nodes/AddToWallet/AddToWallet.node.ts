@@ -43,6 +43,49 @@ export class AddToWallet implements INodeType {
         placeholder: 'John Doe',
       },
       {
+        displayName: 'Logo URL',
+        name: 'logoUrl',
+        type: 'string',
+        required: true,
+        default: '',
+        placeholder: 'https://example.com/logo.png',
+      },
+      {
+        displayName: 'Hero Image',
+        name: 'heroImage',
+        type: 'string',
+        required: true,
+        default: '',
+        placeholder: 'https://example.com/hero.png',
+      },
+      {
+        displayName: 'Background Color',
+        name: 'hexBackgroundColor',
+        type: 'color',
+        required: true,
+        default: '#141f31',
+      },
+      {
+        displayName: 'Barcode Type',
+        name: 'barcodeType',
+        type: 'options',
+        required: true,
+        options: [
+          { name: 'QR Code', value: 'QR_CODE' },
+          { name: 'PDF417', value: 'PDF_417' },
+          { name: 'Aztec', value: 'AZTEC' },
+          { name: 'Code 128', value: 'CODE_128' },
+        ],
+        default: 'QR_CODE',
+      },
+      {
+        displayName: 'Barcode Value',
+        name: 'barcodeValue',
+        type: 'string',
+        required: true,
+        default: '',
+      },
+      {
         displayName: 'Additional Fields',
         name: 'additionalFields',
         type: 'collection',
@@ -63,32 +106,8 @@ export class AddToWallet implements INodeType {
             placeholder: 'https://example.com/apple.png',
           },
           {
-            displayName: 'Background Color',
-            name: 'hexBackgroundColor',
-            type: 'color',
-            default: '#141f31',
-          },
-          {
             displayName: 'Barcode Alt Text',
             name: 'barcodeAltText',
-            type: 'string',
-            default: '',
-          },
-          {
-            displayName: 'Barcode Type',
-            name: 'barcodeType',
-            type: 'options',
-            options: [
-              { name: 'QR Code', value: 'QR_CODE' },
-              { name: 'PDF417', value: 'PDF_417' },
-              { name: 'Aztec', value: 'AZTEC' },
-              { name: 'Code 128', value: 'CODE_128' },
-            ],
-            default: 'QR_CODE',
-          },
-          {
-            displayName: 'Barcode Value',
-            name: 'barcodeValue',
             type: 'string',
             default: '',
           },
@@ -98,13 +117,6 @@ export class AddToWallet implements INodeType {
             type: 'string',
             default: '',
             placeholder: 'https://example.com/google.png',
-          },
-          {
-            displayName: 'Hero Image',
-            name: 'heroImage',
-            type: 'string',
-            default: '',
-            placeholder: 'https://example.com/hero.png',
           },
           {
             displayName: 'Links',
@@ -135,13 +147,6 @@ export class AddToWallet implements INodeType {
                 ],
               },
             ],
-          },
-          {
-            displayName: 'Logo URL',
-            name: 'logoUrl',
-            type: 'string',
-            default: '',
-            placeholder: 'https://example.com/logo.png',
           },
           {
             displayName: 'Rectangle Logo',
@@ -193,18 +198,19 @@ export class AddToWallet implements INodeType {
       try {
         const cardTitle = this.getNodeParameter('cardTitle', i) as string;
         const header = this.getNodeParameter('header', i) as string;
+        const logoUrl = this.getNodeParameter('logoUrl', i) as string;
+        const heroImage = this.getNodeParameter('heroImage', i) as string;
+        const hexBackgroundColor = this.getNodeParameter('hexBackgroundColor', i) as string;
+        const barcodeType = this.getNodeParameter('barcodeType', i) as string;
+        const barcodeValue = this.getNodeParameter('barcodeValue', i) as string;
+        
         const additionalFields = this.getNodeParameter('additionalFields', i, {}) as IDataObject;
         
-        const logoUrl = (additionalFields.logoUrl as string) || '';
         const rectangleLogo = (additionalFields.rectangleLogo as string) || '';
-        const heroImage = (additionalFields.heroImage as string) || '';
         const googleHeroImage = (additionalFields.googleHeroImage as string) || '';
         const appleHeroImage = (additionalFields.appleHeroImage as string) || '';
-        const hexBackgroundColor = (additionalFields.hexBackgroundColor as string) || '#141f31';
         const appleFontColor = (additionalFields.appleFontColor as string) || '#FFFFFF';
-        const barcodeValue = (additionalFields.barcodeValue as string) || '';
         const barcodeAltText = (additionalFields.barcodeAltText as string) || '';
-        const barcodeType = (additionalFields.barcodeType as string) || 'QR_CODE';
 
         // text modules (could be empty)
         const textModules = additionalFields.textModules && (additionalFields.textModules as IDataObject).module
